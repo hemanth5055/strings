@@ -1,10 +1,20 @@
 import HamMenu from "@/components/HamMenu";
 import Post from "@/components/Post";
+import SignIn from "@/components/SignIn";
+import { auth, currentUser, User } from "@clerk/nextjs/server";
 import Image from "next/image";
 import React from "react";
 import { IoAttachOutline } from "react-icons/io5";
+import { getUserByClerkId, syncUser } from "@/actions/user.action";
 
-const Home = () => {
+const Home = async () => {
+  const doesUserExists = await currentUser();
+  if (!doesUserExists) {
+    return <SignIn></SignIn>;
+  }
+  await syncUser(); //used instead of webhooks
+  const user = await getUserByClerkId(doesUserExists.id);
+  if (!user) return;
   return (
     <div className="flex flex-col gap-3 w-full h-[98vh] overflow-y-auto max-w-screen-md mx-auto">
       {/* Main content */}
@@ -15,7 +25,7 @@ const Home = () => {
           <div className="w-[36px] sm:w-[40px] h-[36px] sm:h-[40px] relative rounded-full bg-gray-800 shrink-0">
             <Image
               fill
-              src="https://ik.imagekit.io/nsux7zbwq/photo-1528758054211-22aa4c5300db.avif?updatedAt=1752333291511"
+              src={user.image}
               alt="profile"
               className="object-cover rounded-full"
             />

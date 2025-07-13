@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { CgMenuRight } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
-import SideBar from "./SideBar";
 
 const HamMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +35,7 @@ const HamMenu = () => {
               </button>
             </div>
             {/* Sidebar content */}
-            <SideBar></SideBar>
+            {/* <SideBar></SideBar> */}
           </div>
         </>
       )}
