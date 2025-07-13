@@ -19,6 +19,7 @@ export async function getAllPosts() {
           name: true,
           username: true,
           image: true,
+          isVerified: true,
         },
       },
       _count: {
@@ -36,11 +37,11 @@ export async function getAllPosts() {
 
 export async function addPost(content: string, image?: string) {
   const user = await currentUser();
-  if (!user) return;
+  if (!user) return false;
   const dbUser = await prisma.user.findUnique({
     where: { clerkId: user.id },
   });
-  if (!dbUser) return;
+  if (!dbUser) return false;
   await prisma.post.create({
     data: {
       content,
@@ -49,15 +50,16 @@ export async function addPost(content: string, image?: string) {
     },
   });
   revalidatePath("/");
+  return true;
 }
 
 export async function toggleLike(postId: string) {
   const user = await currentUser();
-  if (!user) return;
+  if (!user) return false;
   const dbUser = await prisma.user.findUnique({
     where: { clerkId: user.id },
   });
-  if (!dbUser) return;
+  if (!dbUser) return false;
   const existingLike = await prisma.like.findFirst({
     where: {
       userId: dbUser.id,
@@ -81,6 +83,7 @@ export async function toggleLike(postId: string) {
       },
     });
   }
+  return true;
 }
 
 export async function deletePost(postId: string) {

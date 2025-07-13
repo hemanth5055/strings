@@ -3,6 +3,7 @@ import { SignOutButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import React from "react";
+import { MdVerified } from "react-icons/md";
 import FollowBtn from "./FollowBtn";
 
 const RightContent = async () => {
@@ -26,9 +27,16 @@ const RightContent = async () => {
             />
           </div>
           <div className="flex flex-col max-w-[160px] truncate">
-            <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
-              {user.name}
-            </h2>
+            <div className="flex items-center gap-1">
+              <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
+                {user.name}
+              </h2>
+              {user.isVerified ? (
+                <MdVerified className="text-[#3E95EF]" size={16} />
+              ) : (
+                ""
+              )}
+            </div>
             <h3 className="text-[#999999] text-[13px] font-medium truncate">
               {user.username}
             </h3>

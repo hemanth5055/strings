@@ -8,6 +8,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import Image from "next/image";
 import { deletePost, getAllPosts, toggleLike } from "@/actions/post.action";
 import { useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
 const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
   const { user } = useUser();
@@ -24,7 +25,7 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
       setIsLiking(true);
       setHasLiked((prev) => !prev);
       setOptmisticLikes((prev) => prev + (hasLiked ? -1 : 1));
-      await toggleLike(post.id);
+      const like = await toggleLike(post.id);
     } catch (error) {
       setOptmisticLikes(post._count.likes);
       setHasLiked(post.likes.some((like) => like.userId === dbUserId));
@@ -37,7 +38,11 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
     try {
       setIsDeleting(true);
       const result = await deletePost(post.id);
-      if (!result) console.log("failed to delete post");
+      if (result.success) {
+        toast.success("Deleted post successfully.");
+      } else {
+        toast.error("Failed to delete post");
+      }
     } catch (error) {
     } finally {
       setIsDeleting(false);
@@ -45,7 +50,7 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-2 px-3 md:px-0 max-w-screen-sm mx-auto">
+    <div className="w-full flex flex-col gap-2 px-3 md:px-0  mx-auto">
       <div className="w-full flex items-start gap-3 sm:gap-4">
         {/* Profile image */}
         <div className="w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] relative rounded-full bg-gray-800 shrink-0">
@@ -64,7 +69,11 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
             <h2 className="font-medium text-[#F3F5F7] text-sm sm:text-base">
               {post.author.name}
             </h2>
-            <MdVerified className="text-[#3E95EF]" size={16} />
+            {post.author.isVerified ? (
+              <MdVerified className="text-[#3E95EF]" size={16} />
+            ) : (
+              ""
+            )}
           </div>
 
           {/* Text */}

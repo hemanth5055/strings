@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { IoAttachOutline } from "react-icons/io5";
 import { addPost } from "@/actions/post.action";
+import toast from "react-hot-toast";
 
 const PostBox = ({ user }: { user: User }) => {
   const [content, setContent] = useState("");
@@ -13,7 +14,12 @@ const PostBox = ({ user }: { user: User }) => {
     if (!content.trim()) return;
     setLoading(true);
     try {
-      await addPost(content);
+      const isPostAdded = await addPost(content);
+      if (isPostAdded) {
+        toast.success("Added string successfully.");
+      } else {
+        toast.error("Failed to add string.");
+      }
       setContent(""); // Clear textarea after posting
     } catch (err) {
       console.error("Failed to post:", err);
