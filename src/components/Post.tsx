@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
+import { PiTrashSimple } from "react-icons/pi";
+
 import { MdVerified, MdOutlineModeComment } from "react-icons/md";
 import { LuSendHorizontal } from "react-icons/lu";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import Image from "next/image";
-import { getAllPosts, toggleLike } from "@/actions/post.action";
+import { deletePost, getAllPosts, toggleLike } from "@/actions/post.action";
 import { useUser } from "@clerk/nextjs";
 type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
 const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
@@ -13,6 +15,7 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
     post.likes.some((like) => like.userId === dbUserId)
   );
   const [isLiking, setIsLiking] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [optimisticLikes, setOptmisticLikes] = useState(post._count.likes);
 
   const handleLike = async () => {
@@ -27,6 +30,17 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
       setHasLiked(post.likes.some((like) => like.userId === dbUserId));
     } finally {
       setIsLiking(false);
+    }
+  };
+  const handleDeletePost = async () => {
+    if (isDeleting) return;
+    try {
+      setIsDeleting(true);
+      const result = await deletePost(post.id);
+      if (!result) console.log("failed to delete post");
+    } catch (error) {
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -109,9 +123,16 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
 
         {/* Post options */}
         <div className="flex items-start pt-1">
-          <h2 className="text-[#3E95EF] font-semibold text-sm sm:text-base cursor-pointer">
-            ...
-          </h2>
+          {dbUserId === post.authorId ? (
+            <div
+              className=" cursor-pointer text-red-400"
+              onClick={handleDeletePost}
+            >
+              <PiTrashSimple size={15} />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 

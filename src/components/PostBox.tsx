@@ -51,10 +51,10 @@ const PostBox = ({ user }: { user: User }) => {
       </div>
 
       {/* Post button */}
-      <div className="flex items-center pt-2 sm:pt-0">
+      <div className="flex items-center pt-2 sm:pt-0 cursor-pointer">
         <h2
           onClick={handlePost}
-          className={`text-[#3E95EF] font-semibold text-sm sm:text-base cursor-pointer ${
+          className={`text-[#3E95EF] font-semibold text-sm sm:text-base ${
             loading ? "opacity-50 pointer-events-none" : ""
           }`}
         >
