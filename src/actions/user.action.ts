@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export async function syncUser() {
   try {
@@ -52,4 +53,81 @@ export async function getDbUserId() {
   const user = await getUserByClerkId(clerkId);
   if (!user) throw new Error("User not found");
   return user.id;
+}
+
+export async function getRandomUsers() {
+  try {
+    const userId = await getDbUserId();
+    if (!userId) return [];
+    // get 3 random users exclude ourselves & users that we already follow
+    const randomUsers = await prisma.user.findMany({
+      where: {
+        AND: [
+          { NOT: { id: userId } },
+          {
+            NOT: {
+              followers: {
+                some: {
+                  followerId: userId,
+                },
+              },
+            },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        image: true,
+      },
+      take: 3,
+    });
+    return randomUsers;
+  } catch (error) {
+    console.log("Error fetching random users", error);
+    return [];
+  }
+}
+export async function toggleFollow(targetUserId: string) {
+  try {
+    const userId = await getDbUserId();
+    if (!userId) return;
+
+    if (userId === targetUserId) {
+      throw new Error("You cannot follow yourself");
+    }
+
+    // Check if already following
+    const existingFollow = await prisma.follow.findFirst({
+      where: {
+        followerId: userId,
+        followeeId: targetUserId,
+      },
+    });
+
+    if (existingFollow) {
+      // Unfollow
+      await prisma.follow.delete({
+        where: {
+          id: existingFollow.id,
+        },
+      });
+    } else {
+      // Follow
+      await prisma.follow.create({
+        data: {
+          followerId: userId,
+          followeeId: targetUserId,
+        },
+      });
+    }
+
+    revalidatePath("/");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error in toggleFollow:", error);
+    return { success: false, error: "Error toggling follow" };
+  }
 }
