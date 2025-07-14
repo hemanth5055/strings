@@ -41,6 +41,7 @@ const User = async () => {
             ""
           )}
         </div>
+        
         <h3 className="text-[#999999] text-[15px] font-medium truncate">
           {user.username}
         </h3>
@@ -56,9 +57,7 @@ const User = async () => {
             {user._count.following}
           </h2>
         </div>
-
         <div className="h-full w-[1px] bg-[#343638]"></div>
-
         <div className="flex flex-col  items-center">
           <h3 className="text-[#999999] text-[15px] font-medium truncate">
             Followers

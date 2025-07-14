@@ -1,11 +1,19 @@
 "use client";
+
+import Link from "next/link";
 import React, { useState } from "react";
 import { CgMenuRight } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
+import { FiHome } from "react-icons/fi";
+import { CgSearch } from "react-icons/cg";
+import { FaRegHeart } from "react-icons/fa6";
+import { IoArrowForwardOutline } from "react-icons/io5";
 
 const HamMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
   return (
     <>
       {/* Top Nav Bar */}
@@ -35,7 +43,63 @@ const HamMenu = () => {
               </button>
             </div>
             {/* Sidebar content */}
-            {/* <SideBar></SideBar> */}
+            <div className="w-full flex flex-col gap-3">
+              {/* symbol */}
+              <h1 className="font-medium text-[30px] px-2 mb-4 text-[#F3F5F7]">
+                & Strings
+              </h1>
+
+              {/* home */}
+              <Link
+                className="w-full flex items-center gap-2"
+                href="/"
+                onClick={closeSidebar}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center">
+                  <FiHome size={20} />
+                </div>
+                <h3 className="font-semibold text-[#F3F5F7]">Home</h3>
+              </Link>
+
+              {/* search */}
+              <Link
+                className="w-full flex items-center gap-2"
+                href="/search"
+                onClick={closeSidebar}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center">
+                  <CgSearch size={25} />
+                </div>
+                <h3 className="font-semibold text-[#F3F5F7]">Search</h3>
+              </Link>
+
+              {/* activity */}
+              <Link
+                className="w-full flex items-center gap-2"
+                href="/activity"
+                onClick={closeSidebar}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center">
+                  <FaRegHeart size={20} />
+                </div>
+                <h3 className="font-semibold text-[#F3F5F7]">Activity</h3>
+              </Link>
+
+              {/* profile */}
+              <Link
+                className="w-full flex items-center gap-2"
+                href="/profile"
+                onClick={closeSidebar}
+              >
+                <div className="w-[40px] h-[40px] flex justify-center items-center">
+                  <IoArrowForwardOutline
+                    size={20}
+                    className="rotate-[-45deg]"
+                  ></IoArrowForwardOutline>
+                </div>
+                <h3 className="font-semibold text-[#F3F5F7]">Profile</h3>
+              </Link>
+            </div>
           </div>
         </>
       )}

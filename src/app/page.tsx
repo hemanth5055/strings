@@ -18,7 +18,7 @@ const Home = async () => {
   return (
     <div className="flex flex-col gap-3 w-full h-[98vh] overflow-y-auto max-w-screen-md mx-auto">
       {/* Main content */}
-      <div className="max-sm:pt-14 sm:pt-4 px-2 sm:px-4 flex flex-col gap-3">
+      <div className="pt-3 px-2 sm:px-4 flex flex-col gap-3">
         {/* post-box */}
         <PostBox user={user}></PostBox>
         {/* line */}

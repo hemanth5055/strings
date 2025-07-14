@@ -4,6 +4,7 @@ import { MdVerified } from "react-icons/md";
 import { searchUsers } from "@/actions/user.action"; // Server action import
 import { redirect } from "next/navigation";
 import Loading from "@/components/Loading";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -17,13 +18,14 @@ const Page = () => {
       }
       setIsLoading(true);
       const result = await searchUsers(searchTerm);
+      if (result.length == 0) toast.error("No users found");
       setUsers(result);
       setIsLoading(false);
     }, 400); // 400ms debounce delay
     return () => clearTimeout(delayDebounce);
   }, [searchTerm]);
   return (
-    <div className="w-full flex flex-col pt-3 gap-4 px-4">
+    <div className="w-full flex flex-col gap-4 px-4 mt-12">
       {/* searchbar */}
       <div className="w-full flex gap-2 items-center justify-center">
         <input
@@ -31,7 +33,7 @@ const Page = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Enter the username"
-          className="h-[40px] w-[60%] rounded-[20px] px-4 font-medium outline-none bg-[#232323] text-white"
+          className="h-[40px] md:w-[60%] w-[80%] rounded-[20px] px-4 font-medium outline-none bg-[#232323] text-white"
         />
       </div>
 
