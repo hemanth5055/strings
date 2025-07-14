@@ -28,7 +28,7 @@ const User = async ({ params }: { params: Promise<{ userName: string }> }) => {
   }
 
   return (
-    <div className="w-full flex pt-5 flex-col gap-4 items-center">
+    <div className="w-full flex pt-5 flex-col gap-4 items-center max-sm:pt-10">
       {/* image */}
       <div className="w-full flex justify-center">
         <div className="h-[100px] w-[100px] relative rounded-full bg-amber-200">

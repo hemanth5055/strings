@@ -1,44 +1,80 @@
 "use client";
-import FollowBtn from "@/components/FollowBtn";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { MdVerified } from "react-icons/md";
+import { searchUsers } from "@/actions/user.action"; // Server action import
+import { redirect } from "next/navigation";
+import Loading from "@/components/Loading";
 
-const page = () => {
-  const [users, setUsers] = useState([]);
+const Page = () => {
+  const [users, setUsers] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const delayDebounce = setTimeout(async () => {
+      setUsers([]);
+      if (searchTerm.trim() === "") {
+        return;
+      }
+      setIsLoading(true);
+      const result = await searchUsers(searchTerm);
+      setUsers(result);
+      setIsLoading(false);
+    }, 400); // 400ms debounce delay
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm]);
   return (
-    <div className="w-full flex flex-col pt-3 gap-4">
+    <div className="w-full flex flex-col pt-3 gap-4 px-4">
       {/* searchbar */}
-      <div className="w-full flex">
+      <div className="w-full flex gap-2 items-center justify-center">
         <input
           type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Enter the username"
-          className="h-[40px] w-[75%] rounded-[20px] px-4 font-medium outline-none bg-[#232323]"
+          className="h-[40px] w-[60%] rounded-[20px] px-4 font-medium outline-none bg-[#232323] text-white"
         />
       </div>
 
-      {/* display users */}
-      <div className="w-[full] my-2 grid grid-cols-3 gap-2">
-        <div className="flex items-center justify-between col-span-1 gap-3 flex-col hover:bg-[#232323] py-3 rounded-[15px]">
-          {/* show-image */}
-          <div className="w-full flex justify-center items-center">
-            <div className="w-[50px] h-[50px] bg-gray-600 rounded-full "></div>
-          </div>
+      {/* user list */}
+      <div className="w-full flex flex-col gap-2 mt-4">
+        {isLoading ? <Loading></Loading> : ""}
+        {users.map((user) => (
+          <div
+            key={user.id}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-[10px] hover:bg-[#232323] transition cursor-pointer"
+            onClick={() => {
+              redirect(`/user/${user.username}`);
+            }}
+          >
+            {/* user avatar + info */}
+            <div className="flex items-center gap-4">
+              <img
+                src={user.image}
+                alt={user.username}
+                className="w-[45px] h-[45px] rounded-full object-cover"
+              />
+              <div className="flex flex-col gap-1">
+                <div className="flex gap-1 items-center">
+                  <h2 className="text-[16px] font-semibold text-[#F3F5F7] truncate">
+                    {user.name}
+                  </h2>
+                  {user.isVerified ? (
+                    <MdVerified className="text-[#3E95EF]" size={16} />
+                  ) : (
+                    ""
+                  )}
+                </div>
 
-          {/* show-name-and-username */}
-          <div className="flex justify-center items-center gap-1 flex-col">
-            <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
-              Hemanth Reddy
-            </h2>
-            <h3 className="text-[#999999] text-[13px] font-medium truncate">
-              userhemanth
-            </h3>
+                <h3 className="text-[#999999] text-xs font-medium truncate">
+                  {user.username}
+                </h3>
+              </div>
+            </div>
           </div>
-          <FollowBtn userId="123"></FollowBtn>
-        </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default page;
+export default Page;

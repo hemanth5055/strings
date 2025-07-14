@@ -176,3 +176,21 @@ export async function getUserByUsername(
     weFollowingUser: !!weFollowingUser,
   };
 }
+
+export async function searchUsers(query: string) {
+  return await prisma.user.findMany({
+    where: {
+      username: {
+        contains: query,
+        mode: "insensitive",
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      image: true,
+      isVerified: true,
+    },
+  });
+}
