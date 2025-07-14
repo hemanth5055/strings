@@ -1,5 +1,4 @@
 "use server";
-
 import { prisma } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
@@ -9,6 +8,38 @@ export async function getAllPosts() {
   const user = await currentUser();
   if (!user) return [];
   const posts = await prisma.post.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          image: true,
+          isVerified: true,
+        },
+      },
+      _count: {
+        select: {
+          likes: true,
+          comments: true,
+        },
+      },
+      likes: true,
+      comments: true,
+    },
+  });
+  return posts;
+}
+export async function getAllPostsOfuser(userId: string) {
+  const user = await currentUser();
+  if (!user) return [];
+  const posts = await prisma.post.findMany({
+    where: {
+      authorId: userId,
+    },
     orderBy: {
       createdAt: "desc",
     },

@@ -3,7 +3,7 @@ import Post from "./Post";
 import { getAllPosts } from "@/actions/post.action";
 import { getDbUserId } from "@/actions/user.action";
 
-const Posts = async () => {
+const Posts = async ({}) => {
   type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
   const posts = await getAllPosts();
   const dbUserId = await getDbUserId();

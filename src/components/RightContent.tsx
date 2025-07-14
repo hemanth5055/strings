@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import { MdVerified } from "react-icons/md";
 import FollowBtn from "./FollowBtn";
+import Link from "next/link";
 
 const RightContent = async () => {
   const authUser = await currentUser();
@@ -75,16 +76,22 @@ const RightContent = async () => {
                 />
               </div>
               <div className="flex flex-col truncate max-w-[160px]">
-                <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
-                  {suggestedUser.name}
-                </h2>
+                <Link href={`/user/${suggestedUser.username}`}>
+                  <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
+                    {suggestedUser.name}
+                  </h2>
+                </Link>
+                <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate"></h2>
                 <h3 className="text-[#999999] text-[13px] font-medium truncate">
                   {suggestedUser.username}
                 </h3>
               </div>
             </div>
             {/* follow */}
-            <FollowBtn userId={suggestedUser.id}></FollowBtn>
+            <FollowBtn
+              userId={suggestedUser.id}
+              alreadyFollowing={false}
+            ></FollowBtn>
           </div>
         ))}
       </div>

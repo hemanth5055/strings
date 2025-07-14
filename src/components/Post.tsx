@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { PiTrashSimple } from "react-icons/pi";
-
 import { MdVerified, MdOutlineModeComment } from "react-icons/md";
 import { LuSendHorizontal } from "react-icons/lu";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
@@ -9,6 +8,7 @@ import Image from "next/image";
 import { deletePost, getAllPosts, toggleLike } from "@/actions/post.action";
 import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
+import Link from "next/link";
 type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
 const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
   const { user } = useUser();
@@ -66,9 +66,11 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
         <div className="flex flex-col gap-1 w-full">
           {/* Username + verified */}
           <div className="flex items-center gap-1">
-            <h2 className="font-medium text-[#F3F5F7] text-sm sm:text-base">
-              {post.author.name}
-            </h2>
+            <Link href={`/user/${post.author.username}`}>
+              <h2 className="font-medium text-[#F3F5F7] text-sm sm:text-base">
+                {post.author.name}
+              </h2>
+            </Link>
             {post.author.isVerified ? (
               <MdVerified className="text-[#3E95EF]" size={16} />
             ) : (

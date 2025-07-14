@@ -29,7 +29,6 @@ export async function syncUser() {
     console.log("Error in syncUser", error);
   }
 }
-
 export async function getUserByClerkId(clerkId: string) {
   return await prisma.user.findUnique({
     where: {
@@ -46,7 +45,6 @@ export async function getUserByClerkId(clerkId: string) {
     },
   });
 }
-
 export async function getDbUserId() {
   const { userId: clerkId } = await auth();
   if (!clerkId) return null;
@@ -54,7 +52,6 @@ export async function getDbUserId() {
   if (!user) throw new Error("User not found");
   return user.id;
 }
-
 export async function getRandomUsers() {
   try {
     const userId = await getDbUserId();
@@ -93,11 +90,9 @@ export async function toggleFollow(targetUserId: string) {
   try {
     const userId = await getDbUserId();
     if (!userId) return;
-
     if (userId === targetUserId) {
       throw new Error("You cannot follow yourself");
     }
-
     // Check if already following
     const existingFollow = await prisma.follow.findFirst({
       where: {
@@ -105,7 +100,6 @@ export async function toggleFollow(targetUserId: string) {
         followeeId: targetUserId,
       },
     });
-
     if (existingFollow) {
       // Unfollow
       await prisma.follow.delete({
@@ -113,6 +107,7 @@ export async function toggleFollow(targetUserId: string) {
           id: existingFollow.id,
         },
       });
+      return { success: true, code: 0 };
     } else {
       // Follow
       await prisma.follow.create({
@@ -121,13 +116,63 @@ export async function toggleFollow(targetUserId: string) {
           followeeId: targetUserId,
         },
       });
+      return { success: true, code: 1 };
     }
-
-    revalidatePath("/");
-
-    return { success: true };
   } catch (error) {
     console.error("Error in toggleFollow:", error);
     return { success: false, error: "Error toggling follow" };
   }
+}
+export async function getUserByUsername(
+  username: string,
+  currentUserId: string
+) {
+  const targetUser = await prisma.user.findUnique({
+    where: { username },
+    include: {
+      posts: {
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+        },
+      },
+      _count: {
+        select: {
+          followers: true,
+          following: true,
+          posts: true,
+        },
+      },
+    },
+  });
+
+  if (!targetUser) return null;
+
+  const [weFollowingUser, isFollowingUs] = await Promise.all([
+    prisma.follow.findFirst({
+      where: {
+        followerId: currentUserId,
+        followeeId: targetUser.id,
+      },
+    }),
+    prisma.follow.findFirst({
+      where: {
+        followerId: targetUser.id,
+        followeeId: currentUserId,
+      },
+    }),
+  ]);
+
+  return {
+    id: targetUser.id,
+    name: targetUser.name,
+    username: targetUser.username,
+    image: targetUser.image,
+    isVerified: targetUser.isVerified,
+    posts: targetUser.posts,
+    _count: targetUser._count,
+    isFollowingUs: !!isFollowingUs,
+    weFollowingUser: !!weFollowingUser,
+  };
 }
