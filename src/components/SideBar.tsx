@@ -12,7 +12,6 @@ const SideBar = async () => {
   if (!authUser) return null;
   const user = await getUserByClerkId(authUser.id);
   if (!user) return null;
-
   return (
     <div className="w-full flex flex-col gap-3">
       {/* symbol */}
