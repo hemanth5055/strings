@@ -7,6 +7,8 @@ import HamMenu from "@/components/HamMenu";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/theme-provider";
+import ModeToggle from "@/components/Modetoggle";
 
 const mont = Montserrat({
   variable: "--font-mont",
@@ -31,22 +33,32 @@ export default function RootLayout({
     >
       <html lang="en" suppressHydrationWarning>
         <body className={`antialiased ${mont.variable} md:overflow-y-hidden`}>
-          <Toaster position="top-right"></Toaster>
-          <div className="h-screen w-full grid md:grid-cols-16 grid-cols-6 m-auto md:p-6 p-2 pt-12 md:pt-5">
-            {/* left-sidebar */}
-            <div className="col-span-3 hidden md:flex">
-              <SideBar></SideBar>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster position="top-right"></Toaster>
+            <div className="h-screen w-full grid md:grid-cols-16 grid-cols-6 m-auto md:p-6 p-2 pt-12 md:pt-5">
+              {/* left-sidebar */}
+              <div className="col-span-3 hidden md:flex">
+                <SideBar></SideBar>
+              </div>
+              {/* -sidebar */}
+              <div className="col-span-9 md:flex ">
+                <HamMenu></HamMenu>
+                {children}
+              </div>
+              {/* right-sidebar */}
+              <div className="col-span-4 hidden md:flex">
+                <RightContent></RightContent>
+              </div>
             </div>
-            {/* -sidebar */}
-            <div className="col-span-9 md:flex ">
-              <HamMenu></HamMenu>
-              {children}
+            <div className="absolute bottom-2 right-4">
+              <ModeToggle></ModeToggle>
             </div>
-            {/* right-sidebar */}
-            <div className="col-span-4 hidden md:flex">
-              <RightContent></RightContent>
-            </div>
-          </div>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

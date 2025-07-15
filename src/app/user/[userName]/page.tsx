@@ -43,7 +43,7 @@ const User = async ({ params }: { params: Promise<{ userName: string }> }) => {
       {/* details */}
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-2">
-          <h2 className="text-[20px] font-semibold text-[#F3F5F7] truncate">
+          <h2 className="text-[20px] font-semibold dark:text-[#F3F5F7] truncate">
             {req_user.name}
           </h2>
           {req_user.isVerified ? (
@@ -63,7 +63,7 @@ const User = async ({ params }: { params: Promise<{ userName: string }> }) => {
           <h3 className="text-[#999999] text-[15px] font-medium truncate">
             Following
           </h3>
-          <h2 className="text-[20px] font-semibold text-[#F3F5F7] truncate">
+          <h2 className="text-[20px] font-semibold dark:text-[#F3F5F7] truncate">
             {req_user._count.following}
           </h2>
         </div>
@@ -73,7 +73,7 @@ const User = async ({ params }: { params: Promise<{ userName: string }> }) => {
           <h3 className="text-[#999999] text-[15px] font-medium truncate">
             Followers
           </h3>
-          <h2 className="text-[20px] font-semibold text-[#F3F5F7] truncate">
+          <h2 className="text-[20px] font-semibold dark:text-[#F3F5F7] truncate">
             {req_user._count.followers}
           </h2>
         </div>

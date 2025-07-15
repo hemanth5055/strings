@@ -15,7 +15,7 @@ const SideBar = async () => {
   return (
     <div className="w-full flex flex-col gap-3">
       {/* symbol */}
-      <h1 className="font-medium text-[30px] px-2 mb-4 text-[#F3F5F7]">
+      <h1 className="font-medium text-[30px] px-2 mb-4 text-black dark:text-[#F3F5F7]">
         & Strings
       </h1>
 
@@ -24,7 +24,7 @@ const SideBar = async () => {
         <div className="w-[40px] h-[40px] flex justify-center items-center">
           <FiHome size={20} />
         </div>
-        <h3 className="font-semibold text-[#F3F5F7]">Home</h3>
+        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">Home</h3>
       </Link>
 
       {/* search */}
@@ -32,7 +32,7 @@ const SideBar = async () => {
         <div className="w-[40px] h-[40px] flex justify-center items-center">
           <CgSearch size={25} />
         </div>
-        <h3 className="font-semibold text-[#F3F5F7]">Search</h3>
+        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">Search</h3>
       </Link>
 
       {/* activity */}
@@ -40,7 +40,7 @@ const SideBar = async () => {
         <div className="w-[40px] h-[40px] flex justify-center items-center">
           <FaRegHeart size={20} />
         </div>
-        <h3 className="font-semibold text-[#F3F5F7]">Activity</h3>
+        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">Activity</h3>
       </Link>
 
       {/* profile */}
@@ -55,7 +55,7 @@ const SideBar = async () => {
             />
           </div>
         </div>
-        <h3 className="font-semibold text-[#F3F5F7]">Profile</h3>
+        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">Profile</h3>
       </Link>
     </div>
   );

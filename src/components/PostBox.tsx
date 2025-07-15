@@ -46,7 +46,7 @@ const PostBox = ({ user }: { user: User }) => {
           id="string"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="resize-none w-full h-[75px] outline-none placeholder:text-[#5F5F5F] font-medium text-[#F3F5F7] bg-transparent text-sm sm:text-base"
+          className="resize-none w-full h-[75px] outline-none placeholder:text-[#5F5F5F] font-medium dark:text-[#F3F5F7] bg-transparent text-sm sm:text-base"
           placeholder="What's on your mind?"
         />
         <div className="w-full flex justify-start">

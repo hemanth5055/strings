@@ -17,12 +17,12 @@ const HamMenu = () => {
   return (
     <>
       {/* Top Nav Bar */}
-      <div className="md:hidden fixed top-0 left-0 w-full h-12 z-50 backdrop-blur-lg flex justify-end items-center px-4 shadow-md">
+      <div className="md:hidden fixed top-0 left-0 w-full h-12 z-50 backdrop-blur-lg flex justify-end items-center px-4 ">
         <button
           className="w-[36px] h-[36px] flex justify-center items-center"
           onClick={() => setIsOpen(true)}
         >
-          <CgMenuRight className="text-[#D4D4D4]" size={24} />
+          <CgMenuRight className="dark:text-[#D4D4D4] text-black" size={24} />
         </button>
       </div>
 
@@ -31,21 +31,21 @@ const HamMenu = () => {
         <>
           {/* Blurred Backdrop */}
           <div
-            className="fixed top-0 left-0 w-full h-screen bg-black/40 backdrop-blur-sm z-40"
+            className="fixed top-0 left-0 w-full h-screen bg-white/40 dark:bg-black/40 backdrop-blur-sm z-40"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Sidebar Panel */}
-          <div className="fixed top-0 right-0 w-64 h-screen bg-black z-50 p-4 flex flex-col gap-4 text-white shadow-lg transition-transform">
+          <div className="fixed top-0 right-0 w-64 h-screen dark:bg-black bg-gray-100 z-50 p-4 flex flex-col gap-4 text-white shadow-lg transition-transform">
             <div className="flex justify-end items-center">
               <button onClick={() => setIsOpen(false)}>
-                <IoClose size={24} />
+                <IoClose size={24} className="text-black dark:text-[#F3F5F7]" />
               </button>
             </div>
             {/* Sidebar content */}
             <div className="w-full flex flex-col gap-3">
               {/* symbol */}
-              <h1 className="font-medium text-[30px] px-2 mb-4 text-[#F3F5F7]">
+              <h1 className="font-medium text-[30px] px-2 mb-4 text-black dark:text-[#F3F5F7]">
                 & Strings
               </h1>
 
@@ -56,9 +56,11 @@ const HamMenu = () => {
                 onClick={closeSidebar}
               >
                 <div className="w-[40px] h-[40px] flex justify-center items-center">
-                  <FiHome size={20} />
+                  <FiHome size={20} className="text-black dark:text-[#F3F5F7]" />
                 </div>
-                <h3 className="font-semibold text-[#F3F5F7]">Home</h3>
+                <h3 className="font-semibold dark:text-[#F3F5F7] text-black">
+                  Home
+                </h3>
               </Link>
 
               {/* search */}
@@ -68,9 +70,11 @@ const HamMenu = () => {
                 onClick={closeSidebar}
               >
                 <div className="w-[40px] h-[40px] flex justify-center items-center">
-                  <CgSearch size={25} />
+                  <CgSearch size={25} className="text-black dark:text-[#F3F5F7]" />
                 </div>
-                <h3 className="font-semibold text-[#F3F5F7]">Search</h3>
+                <h3 className="font-semibold dark:text-[#F3F5F7] text-black">
+                  Search
+                </h3>
               </Link>
 
               {/* activity */}
@@ -80,9 +84,11 @@ const HamMenu = () => {
                 onClick={closeSidebar}
               >
                 <div className="w-[40px] h-[40px] flex justify-center items-center">
-                  <FaRegHeart size={20} />
+                  <FaRegHeart size={20} className="text-black dark:text-[#F3F5F7]" />
                 </div>
-                <h3 className="font-semibold text-[#F3F5F7]">Activity</h3>
+                <h3 className="font-semibold dark:text-[#F3F5F7] text-black">
+                  Activity
+                </h3>
               </Link>
 
               {/* profile */}
@@ -94,10 +100,12 @@ const HamMenu = () => {
                 <div className="w-[40px] h-[40px] flex justify-center items-center">
                   <IoArrowForwardOutline
                     size={20}
-                    className="rotate-[-45deg]"
+                    className="rotate-[-45deg] text-black dark:text-[#F3F5F7]"
                   ></IoArrowForwardOutline>
                 </div>
-                <h3 className="font-semibold text-[#F3F5F7]">Profile</h3>
+                <h3 className="font-semibold dark:text-[#F3F5F7] text-black">
+                  Profile
+                </h3>
               </Link>
             </div>
           </div>

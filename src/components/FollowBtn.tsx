@@ -39,11 +39,11 @@ const FollowBtn = ({
   };
   return (
     <button
-      className="border-1 px-3 cursor-pointer py-1 rounded-[10px] border-[#323232] hover:bg-[#292929] transition "
+      className="border-1 px-3 cursor-pointer py-1 rounded-[10px] border-[#323232] hover:dark:bg-[#292929] hover:bg-gray-200 transition "
       onClick={handleFollow}
     >
       {isLoading ? (
-        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        <div className="w-5 h-5 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
       ) : (
         message
       )}

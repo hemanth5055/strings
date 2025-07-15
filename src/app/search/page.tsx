@@ -33,7 +33,7 @@ const Page = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Enter the username"
-          className="h-[40px] md:w-[60%] w-[80%] rounded-[20px] px-4 font-medium outline-none bg-[#232323] text-white"
+          className="h-[50px] md:w-[60%] w-[80%] rounded-[20px] px-4 font-medium outline-none dark:bg-[#232323] bg-gray-200 text-black  dark:text-white"
         />
       </div>
 
@@ -43,7 +43,7 @@ const Page = () => {
         {users.map((user) => (
           <div
             key={user.id}
-            className="w-full flex items-center justify-between px-4 py-3 rounded-[10px] hover:bg-[#232323] transition cursor-pointer"
+            className="w-full flex items-center justify-between px-4 py-3 rounded-[10px] hover:dark:bg-[#232323] hover:bg-gray-200 transition cursor-pointer"
             onClick={() => {
               redirect(`/user/${user.username}`);
             }}
@@ -57,7 +57,7 @@ const Page = () => {
               />
               <div className="flex flex-col gap-1">
                 <div className="flex gap-1 items-center">
-                  <h2 className="text-[16px] font-semibold text-[#F3F5F7] truncate">
+                  <h2 className="text-[16px] font-semibold dark:text-[#F3F5F7] truncate">
                     {user.name}
                   </h2>
                   {user.isVerified ? (

@@ -72,7 +72,7 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
                   : `/user/${post.author.username}`
               }`}
             >
-              <h2 className="font-medium text-[#F3F5F7] text-sm sm:text-base">
+              <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
                 {post.author.name}
               </h2>
             </Link>
@@ -84,7 +84,7 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
           </div>
 
           {/* Text */}
-          <p className="text-[#F3F5F7] font-medium text-sm sm:text-base">
+          <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
             {post.content}
           </p>
 
@@ -112,19 +112,19 @@ const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
               {hasLiked ? (
                 <FaHeart size={20} className="text-red-500" />
               ) : (
-                <FaRegHeart size={20} className="text-[#e8e8e8]" />
+                <FaRegHeart size={20} className="dark:text-[#F3F5F7]" />
               )}
             </div>
 
             <div onClick={() => redirect(`/post/${post.id}`)}>
               <MdOutlineModeComment
                 size={20}
-                className="text-[#e8e8e8] cursor-pointer"
+                className="dark:text-[#F3F5F7] cursor-pointer"
               />
             </div>
             <LuSendHorizontal
               size={20}
-              className="text-[#e8e8e8] cursor-pointer"
+              className="dark:text-[#F3F5F7] cursor-pointer"
             />
           </div>
 

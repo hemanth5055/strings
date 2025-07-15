@@ -29,7 +29,7 @@ const RightContent = async () => {
           </div>
           <div className="flex flex-col max-w-[160px] truncate">
             <div className="flex items-center gap-1">
-              <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
+              <h2 className="text-[15px] font-semibold dark:text-[#F3F5F7] truncate">
                 {user.name}
               </h2>
               {user.isVerified ? (
@@ -38,7 +38,7 @@ const RightContent = async () => {
                 ""
               )}
             </div>
-            <h3 className="text-[#999999] text-[13px] font-medium truncate">
+            <h3 className="dark:text-[#999999] text-[#4b4b4b] text-[13px] font-medium truncate">
               {user.username}
             </h3>
           </div>
@@ -53,7 +53,7 @@ const RightContent = async () => {
       </div>
 
       <div>
-        <h2 className="text-[#999999] font-medium text-md">
+        <h2 className="dark:text-[#999999] text-[#4b4b4b]font-medium text-md">
           Suggested for you
         </h2>
       </div>
@@ -77,12 +77,11 @@ const RightContent = async () => {
               </div>
               <div className="flex flex-col truncate max-w-[160px]">
                 <Link href={`/user/${suggestedUser.username}`}>
-                  <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate">
+                  <h2 className="text-[15px] font-semibold dark:text-[#F3F5F7] truncate">
                     {suggestedUser.name}
                   </h2>
                 </Link>
-                <h2 className="text-[15px] font-semibold text-[#F3F5F7] truncate"></h2>
-                <h3 className="text-[#999999] text-[13px] font-medium truncate">
+                <h3 className="dark:text-[#999999] text-[#4b4b4b] text-[13px] font-medium truncate">
                   {suggestedUser.username}
                 </h3>
               </div>
@@ -97,16 +96,36 @@ const RightContent = async () => {
       </div>
 
       <div className="flex flex-wrap gap-x-2 gap-y-1">
-        <h3 className="text-[#999999] font-medium text-[12px]">About</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Help</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Press</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">API</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Jobs</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Privacy</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Terms</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Locations</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Languages</h3>
-        <h3 className="text-[#999999] font-medium text-[12px]">Meta</h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          About
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Help
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Press
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          API
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b]font-medium text-[12px]">
+          Jobs
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Privacy
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Terms
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Locations
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Languages
+        </h3>
+        <h3 className="dark:text-[#999999] text-[#4b4b4b] font-medium text-[12px]">
+          Meta
+        </h3>
       </div>
     </div>
   );

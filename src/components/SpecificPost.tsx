@@ -10,12 +10,13 @@ import {
   deleteComment,
   deletePost,
   getAllPosts,
+  getPostById,
   toggleLike,
 } from "@/actions/post.action";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
+type PostType = Awaited<ReturnType<typeof getPostById>>;
 
 const SpecificPost = ({
   post,
@@ -24,6 +25,7 @@ const SpecificPost = ({
   post: PostType;
   dbUserId: string;
 }) => {
+  if (!post) return ""; //dummy
   const [hasLiked, setHasLiked] = useState(
     post.likes.some((like) => like.userId === dbUserId)
   );
@@ -120,7 +122,7 @@ const SpecificPost = ({
                   : `/user/${post.author.username}`
               }`}
             >
-              <h2 className="font-medium text-[#F3F5F7] text-sm sm:text-base">
+              <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
                 {post.author.name}
               </h2>
             </Link>
@@ -132,7 +134,7 @@ const SpecificPost = ({
           </div>
 
           {/* Text */}
-          <p className="text-[#F3F5F7] font-medium text-sm sm:text-base">
+          <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
             {post.content}
           </p>
 
@@ -160,19 +162,19 @@ const SpecificPost = ({
               {hasLiked ? (
                 <FaHeart size={20} className="text-red-500" />
               ) : (
-                <FaRegHeart size={20} className="text-[#e8e8e8]" />
+                <FaRegHeart size={20} className="dark:text-[#e8e8e8]" />
               )}
             </div>
 
             <div onClick={() => redirect(`/post/${post.id}`)}>
               <MdOutlineModeComment
                 size={20}
-                className="text-[#e8e8e8] cursor-pointer"
+                className="dark:text-[#e8e8e8] cursor-pointer"
               />
             </div>
             <LuSendHorizontal
               size={20}
-              className="text-[#e8e8e8] cursor-pointer"
+              className="dark:text-[#e8e8e8] cursor-pointer"
             />
           </div>
 
@@ -206,7 +208,7 @@ const SpecificPost = ({
       <div className="w-full flex">
         {/* vertical line on the left */}
         <div className="w-[40px] flex justify-center">
-          <div className="w-[2px] bg-gray-600 h-full" />
+          <div className="w-[2px] dark:bg-gray-600  bg-gray-300 h-full" />
         </div>
 
         {/* comments-input-and-comments */}
@@ -219,7 +221,7 @@ const SpecificPost = ({
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Write your comment ..."
-              className="md:w-[60%]  w-[75%] h-[70px] p-2 bg-[#202020] resize-none outline-none font-medium md:text-[16px] text-[14px] rounded-[10px] px-4"
+              className="md:w-[60%]  w-[75%] md:h-[70px] h-[60px] p-2 dark:bg-[#202020] resize-none bg-[#ececec] outline-none font-medium md:text-[16px] text-[14px] rounded-[10px] px-4"
             ></textarea>
             <div onClick={handleAddComment} className="cursor-pointer">
               <h1 className="text-[#3E95EF] font-semibold">Post</h1>
@@ -249,7 +251,7 @@ const SpecificPost = ({
                             : `/user/${cmt.user.username}`
                         }`}
                       >
-                        <h2 className="font-medium text-[#F3F5F7] text-sm sm:text-base">
+                        <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
                           {cmt.user.name}
                         </h2>
                       </Link>
@@ -261,7 +263,7 @@ const SpecificPost = ({
                     </div>
                     {/* comment-message */}
                     <div className="w-full">
-                      <p className="text-[#F3F5F7] font-medium text-sm sm:text-base">
+                      <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
                         {cmt.content}
                       </p>
                     </div>
