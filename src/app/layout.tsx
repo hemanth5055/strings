@@ -30,7 +30,7 @@ export default function RootLayout({
       }}
     >
       <html lang="en" suppressHydrationWarning>
-        <body className={`antialiased ${mont.variable} overflow-y-hidden`}>
+        <body className={`antialiased ${mont.variable} md:overflow-y-hidden`}>
           <Toaster position="top-right"></Toaster>
           <div className="h-screen w-full grid md:grid-cols-16 grid-cols-6 m-auto md:p-6 p-2 pt-12 md:pt-5">
             {/* left-sidebar */}

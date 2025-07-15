@@ -137,3 +137,82 @@ export async function deletePost(postId: string) {
     return { success: false, error: "Failed to delete post" };
   }
 }
+
+export async function getPostById(postId: string) {
+  try {
+    const res = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            image: true,
+            isVerified: true,
+          },
+        },
+        _count: {
+          select: {
+            likes: true,
+            comments: true,
+          },
+        },
+        likes: true,
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                image: true,
+                isVerified: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export async function addComment(
+  postId: string,
+  dbUserId: string,
+  message: string
+) {
+  try {
+    const newComment = await prisma.comment.create({
+      data: {
+        postId,
+        userId: dbUserId,
+        content: message,
+      },
+    });
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to add comment:", error);
+    return { success: false };
+  }
+}
+
+export async function deleteComment(commentID: string) {
+  try {
+    await prisma.comment.delete({
+      where: { id: commentID },
+    });
+    revalidatePath("/"); // purge the cache
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete comment:", error);
+    return { success: false, error: "Failed to delete comment" };
+  }
+}

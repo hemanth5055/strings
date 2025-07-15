@@ -47,7 +47,6 @@ export async function getUserByClerkId(clerkId: string) {
     });
     return res;
   } catch (error) {
-    console.log(error);
     return null;
   }
 }
