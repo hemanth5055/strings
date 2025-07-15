@@ -10,8 +10,9 @@ import { currentUser } from "@clerk/nextjs/server";
 const SideBar = async () => {
   const authUser = await currentUser();
   if (!authUser) return null;
-  const user = await getUserByClerkId(authUser.id);
-  if (!user) return null;
+  const { success, user } = await getUserByClerkId(authUser.id);
+  if (!success || !user) return null;
+
   return (
     <div className="w-full flex flex-col gap-3">
       {/* symbol */}
@@ -40,7 +41,9 @@ const SideBar = async () => {
         <div className="w-[40px] h-[40px] flex justify-center items-center">
           <FaRegHeart size={20} />
         </div>
-        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">Activity</h3>
+        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">
+          Activity
+        </h3>
       </Link>
 
       {/* profile */}
@@ -55,7 +58,9 @@ const SideBar = async () => {
             />
           </div>
         </div>
-        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">Profile</h3>
+        <h3 className="font-semibold text-black dark:text-[#F3F5F7]">
+          Profile
+        </h3>
       </Link>
     </div>
   );

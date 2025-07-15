@@ -13,8 +13,8 @@ const Home = async () => {
     return <SignIn></SignIn>;
   }
   // await syncUser(); //used instead of webhooks
-  const user = await getUserByClerkId(doesUserExists.id);
-  if (!user) return <SignIn></SignIn>;
+  const { success, user } = await getUserByClerkId(doesUserExists.id);
+  if (!success || !user) return <SignIn></SignIn>;
   return (
     <div className="flex flex-col gap-3 w-full h-[98vh] overflow-y-auto max-w-screen-md mx-auto">
       {/* Main content */}

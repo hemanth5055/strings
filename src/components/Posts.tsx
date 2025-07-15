@@ -3,14 +3,15 @@ import Post from "./Post";
 import { getAllPosts } from "@/actions/post.action";
 import { getDbUserId } from "@/actions/user.action";
 
-const Posts = async ({}) => {
-  type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
-  const posts = await getAllPosts();
-  const dbUserId = await getDbUserId();
-  if (!dbUserId) return;
+const Posts = async () => {
+  const { success: postSuccess, data: posts } = await getAllPosts();
+  const { success: userSuccess, userId: dbUserId } = await getDbUserId();
+
+  if (!postSuccess || !userSuccess || !posts || !dbUserId) return null;
+
   return (
     <div className="flex flex-col gap-2">
-      {posts.map((post: PostType) => (
+      {posts.map((post: any) => (
         <Post key={post.id} post={post} dbUserId={dbUserId} />
       ))}
     </div>

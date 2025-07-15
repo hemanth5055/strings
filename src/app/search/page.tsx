@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { MdVerified } from "react-icons/md";
-import { searchUsers } from "@/actions/user.action"; // Server action import
 import { redirect } from "next/navigation";
 import Loading from "@/components/Loading";
 import toast from "react-hot-toast";
@@ -13,17 +12,24 @@ const Page = () => {
   useEffect(() => {
     const delayDebounce = setTimeout(async () => {
       setUsers([]);
-      if (searchTerm.trim() === "") {
-        return;
-      }
+      if (searchTerm.trim() === "") return;
+
       setIsLoading(true);
-      const result = await searchUsers(searchTerm);
-      if (result.length == 0) toast.error("No users found");
-      setUsers(result);
-      setIsLoading(false);
-    }, 400); // 400ms debounce delay
+      try {
+        const res = await fetch(`/api/search-users?q=${searchTerm}`);
+        const result = await res.json();
+        if (result.length === 0) toast.error("No users found");
+        setUsers(result);
+      } catch (err) {
+        toast.error("Search failed");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 400);
+
     return () => clearTimeout(delayDebounce);
   }, [searchTerm]);
+
   return (
     <div className="w-full flex flex-col gap-4 px-4 mt-12">
       {/* searchbar */}

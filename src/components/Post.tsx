@@ -5,14 +5,13 @@ import { MdVerified, MdOutlineModeComment } from "react-icons/md";
 import { LuSendHorizontal } from "react-icons/lu";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import Image from "next/image";
-import { deletePost, getAllPosts, toggleLike } from "@/actions/post.action";
+import { deletePost, toggleLike } from "@/actions/post.action";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-type PostType = Awaited<ReturnType<typeof getAllPosts>>[number];
-const Post = ({ post, dbUserId }: { post: PostType; dbUserId: string }) => {
+const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
   const [hasLiked, setHasLiked] = useState(
-    post.likes.some((like) => like.userId === dbUserId)
+    post.likes.some((like: { userId: string }) => like.userId === dbUserId)
   );
   const [isLiking, setIsLiking] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);

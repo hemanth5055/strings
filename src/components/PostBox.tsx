@@ -7,7 +7,7 @@ import { IoAttachOutline } from "react-icons/io5";
 import { addPost } from "@/actions/post.action";
 import toast from "react-hot-toast";
 
-const PostBox = ({ user }: { user: User }) => {
+const PostBox = ({ user }: { user: any }) => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const handlePost = async () => {

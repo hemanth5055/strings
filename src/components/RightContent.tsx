@@ -10,9 +10,13 @@ import Link from "next/link";
 const RightContent = async () => {
   const authUser = await currentUser();
   if (!authUser) return null;
-  const user = await getUserByClerkId(authUser.id);
-  if (!user) return null;
-  const randomUsers = await getRandomUsers();
+  const { success, user } = await getUserByClerkId(authUser.id);
+  if (!user || !success) return null;
+  const res = await getRandomUsers();
+  if (!res.success || !res.users) {
+    return null;
+  }
+  const randomUsers = res.users;
   return (
     <div className="w-full flex flex-col px-5 pt-3 gap-5">
       {/* my-info */}
