@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { PiTrashSimple } from "react-icons/pi";
 import { MdVerified, MdOutlineModeComment } from "react-icons/md";
 import { LuSendHorizontal } from "react-icons/lu";
+import { IoArrowForwardOutline } from "react-icons/io5";
+
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import Image from "next/image";
 import { deletePost, toggleLike } from "@/actions/post.action";
@@ -116,15 +118,15 @@ const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
             </div>
 
             <div onClick={() => redirect(`/post/${post.id}`)}>
-              <MdOutlineModeComment
+              <IoArrowForwardOutline
                 size={20}
-                className="dark:text-[#F3F5F7] cursor-pointer"
+                className="dark:text-[#F3F5F7] cursor-pointer rotate-[-45deg]"
               />
             </div>
-            <LuSendHorizontal
+            {/* <LuSendHorizontal
               size={20}
               className="dark:text-[#F3F5F7] cursor-pointer"
-            />
+            /> */}
           </div>
 
           {/* Likes and replies */}

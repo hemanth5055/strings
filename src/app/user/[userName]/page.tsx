@@ -9,13 +9,7 @@ import { redirect } from "next/navigation";
 import Loading from "@/components/Loading";
 import { UserPosts } from "@/components/UserPosts";
 
-interface Props {
-  params: {
-    userName: string;
-  };
-}
-
-const User = async ({ params }: Props) => {
+const User = async ({ params }: { params: Promise<{ userName: string }> }) => {
   // Get currently logged in Clerk user
   const authUser = await currentUser();
   if (!authUser) return <SignIn />;
@@ -27,7 +21,7 @@ const User = async ({ params }: Props) => {
   const dbUser = loggedInUserRes.user;
 
   // Check if visiting own profile
-  const { userName } = params;
+  const { userName } = await params;
   if (userName === dbUser.username) {
     redirect("/profile");
   }

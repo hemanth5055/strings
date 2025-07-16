@@ -14,9 +14,9 @@ const Home = async () => {
   }
   // await syncUser(); //used instead of webhooks
   const { success, user } = await getUserByClerkId(doesUserExists.id);
-  if (!success || !user) return <SignIn></SignIn>;
+  if (!success || !user) return <h2 className="font-bold">Server Error please try again later.</h2>;
   return (
-    <div className="flex flex-col gap-3 w-full h-[98vh] overflow-y-auto max-w-screen-md mx-auto">
+    <div className="flex flex-col gap-3 w-full h-[98vh] scrollbar-hide overflow-y-auto max-w-screen-md mx-auto">
       {/* Main content */}
       <div className="pt-3 px-2 sm:px-4 flex flex-col gap-3">
         {/* post-box */}
