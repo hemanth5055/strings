@@ -2,13 +2,14 @@
   "name": "strings",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "prisma migrate deploy && next build",
-    "start": "next start",
-    "lint": "next lint",
-    "postinstall": "prisma generate"
-  },
+ "scripts": {
+  "dev": "next dev",
+  "build": "npx prisma db push && next build",
+  "start": "next start",
+  "lint": "next lint",
+  "postinstall": "npx prisma generate",
+  "prisma": "npx prisma"
+},
   "dependencies": {
     "@clerk/nextjs": "^6.24.0",
     "@clerk/themes": "^2.2.55",
