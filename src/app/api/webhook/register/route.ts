@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Webhook } from "svix";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
@@ -12,6 +13,9 @@ export async function POST(req: Request) {
   const svix_timestamp = req.headers.get("svix-timestamp");
   const svix_signature = req.headers.get("svix-signature");
 
+  console.log(svix_id);
+  console.log(svix_timestamp);
+  console.log(svix_signature);
   if (!svix_id || !svix_timestamp || !svix_signature) {
     return new Response("Error occurred -- no svix headers", {
       status: 400,
