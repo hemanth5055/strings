@@ -87,7 +87,7 @@ const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
                 ""
               )}
             </div>
-            <div className="flex items-center">
+            <div className="md:flex items-center hidden">
               <PostTime createdAt={post.createdAt} />
             </div>
           </div>

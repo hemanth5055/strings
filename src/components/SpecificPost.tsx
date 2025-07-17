@@ -129,7 +129,7 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
                 <MdVerified className="text-[#3E95EF]" size={16} />
               )}
             </div>
-            <div className="flex items-center">
+            <div className="md:flex items-center hidden">
               <PostTime createdAt={post.createdAt} />
             </div>
           </div>
@@ -251,7 +251,7 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
                           <MdVerified className="text-[#3E95EF]" size={16} />
                         )}
                       </div>
-                      <div className="flex items-center">
+                      <div className="md:flex items-center hidden">
                         <PostTime createdAt={cmt.createdAt} />
                       </div>
                     </div>

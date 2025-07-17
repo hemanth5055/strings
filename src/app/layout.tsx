@@ -40,7 +40,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster position="top-right"></Toaster>
-            <div className="h-screen w-full grid md:grid-cols-16 grid-cols-6 m-auto md:p-6 p-2 pt-12 md:pt-5">
+            <div className="h-screen w-full grid md:grid-cols-16 grid-cols-6 m-auto md:p-6 p-1 pt-12 md:pt-5">
               {/* left-sidebar */}
               <div className="col-span-3 hidden md:flex">
                 <SideBar></SideBar>
