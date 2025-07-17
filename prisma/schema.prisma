@@ -30,8 +30,8 @@ model Follow {
   followeeId String
   createdAt  DateTime @default(now())
   //relations
-  follower   User     @relation("Follower", fields: [followerId], references: [id])
-  followee   User     @relation("Followee", fields: [followeeId], references: [id])
+  follower   User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followee   User     @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -40,7 +40,7 @@ model Post {
   image     String?
   authorId  String
   //relations
-  author    User      @relation(fields: [authorId], references: [id])
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments  Comment[]
   likes     Like[]
   createdAt DateTime  @default(now())
@@ -50,7 +50,7 @@ model Like {
   id        String   @id @default(uuid())
   userId    String
   postId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
@@ -60,7 +60,7 @@ model Comment {
   userId    String
   postId    String
   content   String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
