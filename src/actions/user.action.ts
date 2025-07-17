@@ -3,36 +3,36 @@ import { prisma } from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-// ✅ Sync User with DB
-export async function syncUser() {
-  try {
-    const { userId } = await auth();
-    const user = await currentUser();
-    if (!userId || !user) throw new Error("Unauthorized");
+// Now replaced with webhooks
+// export async function syncUser() {
+//   try {
+//     const { userId } = await auth();
+//     const user = await currentUser();
+//     if (!userId || !user) throw new Error("Unauthorized");
 
-    const existingUser = await prisma.user.findUnique({
-      where: { clerkId: userId },
-    });
+//     const existingUser = await prisma.user.findUnique({
+//       where: { clerkId: userId },
+//     });
 
-    if (existingUser) return { success: true, user: existingUser };
+//     if (existingUser) return { success: true, user: existingUser };
 
-    const dbUser = await prisma.user.create({
-      data: {
-        clerkId: userId,
-        name: `${user.firstName || ""} ${user.lastName || ""}`,
-        username:
-          user.username ?? user.emailAddresses[0].emailAddress.split("@")[0],
-        email: user.emailAddresses[0].emailAddress,
-        image: user.imageUrl,
-      },
-    });
+//     const dbUser = await prisma.user.create({
+//       data: {
+//         clerkId: userId,
+//         name: `${user.firstName || ""} ${user.lastName || ""}`,
+//         username:
+//           user.username ?? user.emailAddresses[0].emailAddress.split("@")[0],
+//         email: user.emailAddresses[0].emailAddress,
+//         image: user.imageUrl,
+//       },
+//     });
 
-    return { success: true, user: dbUser };
-  } catch (error) {
-    console.error("syncUser error:", error);
-    return { success: false, error: "Failed to sync user" };
-  }
-}
+//     return { success: true, user: dbUser };
+//   } catch (error) {
+//     console.error("syncUser error:", error);
+//     return { success: false, error: "Failed to sync user" };
+//   }
+// }
 
 // ✅ Get User By Clerk ID
 export async function getUserByClerkId(clerkId: string) {
@@ -54,7 +54,9 @@ export async function getUserByClerkId(clerkId: string) {
         },
       },
     });
-
+    if (!res) {
+      return { success: false };
+    }
     return { success: true, user: res };
   } catch (error) {
     console.error("getUserByClerkId error:", error);
@@ -209,5 +211,3 @@ export async function getUserByUsername(
     return { success: false, error: "Failed to fetch user by username" };
   }
 }
-
-

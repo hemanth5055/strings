@@ -2,7 +2,7 @@ import SignIn from "@/components/SignIn";
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 
-import { getUserByClerkId, syncUser } from "@/actions/user.action";
+import { getUserByClerkId } from "@/actions/user.action";
 import Posts from "@/components/Posts";
 import PostBox from "@/components/PostBox";
 import Loading from "@/components/Loading";
@@ -12,9 +12,9 @@ const Home = async () => {
   if (!doesUserExists) {
     return <SignIn></SignIn>;
   }
-  // await syncUser(); //used instead of webhooks
   const { success, user } = await getUserByClerkId(doesUserExists.id);
-  if (!success || !user) return <h2 className="font-bold">Server Error please try again later.</h2>;
+  if (!success || !user)
+    return <h2 className="font-bold">Server Error please try again later.</h2>;
   return (
     <div className="flex flex-col gap-3 w-full h-[98vh] scrollbar-hide overflow-y-auto max-w-screen-md mx-auto">
       {/* Main content */}
