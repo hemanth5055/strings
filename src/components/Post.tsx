@@ -24,12 +24,14 @@ const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
     if (isLiking) return;
     try {
       setIsLiking(true);
-      setHasLiked((prev) => !prev);
-      setOptmisticLikes((prev) => prev + (hasLiked ? -1 : 1));
+      setHasLiked((prev: boolean) => !prev);
+      setOptmisticLikes((prev: number) => prev + (hasLiked ? -1 : 1));
       const like = await toggleLike(post.id);
     } catch (error) {
       setOptmisticLikes(post._count.likes);
-      setHasLiked(post.likes.some((like) => like.userId === dbUserId));
+      setHasLiked(
+        post.likes.some((like: { userId: string }) => like.userId === dbUserId)
+      );
     } finally {
       setIsLiking(false);
     }
