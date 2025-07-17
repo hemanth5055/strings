@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { PiTrashSimple } from "react-icons/pi";
-import { MdVerified, MdOutlineModeComment } from "react-icons/md";
-import { LuSendHorizontal } from "react-icons/lu";
+import { MdVerified } from "react-icons/md";
+
 import { IoArrowForwardOutline } from "react-icons/io5";
 
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
@@ -11,6 +11,7 @@ import { deletePost, toggleLike } from "@/actions/post.action";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import PostTime from "./PostTime";
 const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
   const [hasLiked, setHasLiked] = useState(
     post.likes.some((like: { userId: string }) => like.userId === dbUserId)
@@ -65,23 +66,28 @@ const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
         {/* Post content */}
         <div className="flex flex-col gap-1 w-full">
           {/* Username + verified */}
-          <div className="flex items-center gap-1">
-            <Link
-              href={`${
-                dbUserId == post.author.id
-                  ? "/profile"
-                  : `/user/${post.author.username}`
-              }`}
-            >
-              <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
-                {post.author.name}
-              </h2>
-            </Link>
-            {post.author.isVerified ? (
-              <MdVerified className="text-[#3E95EF]" size={16} />
-            ) : (
-              ""
-            )}
+          <div className="flex items-center justify-between ">
+            <div className="flex items-center gap-1">
+              <Link
+                href={`${
+                  dbUserId == post.author.id
+                    ? "/profile"
+                    : `/user/${post.author.username}`
+                }`}
+              >
+                <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
+                  {post.author.name}
+                </h2>
+              </Link>
+              {post.author.isVerified ? (
+                <MdVerified className="text-[#3E95EF]" size={16} />
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="flex items-center">
+              <PostTime createdAt={post.createdAt} />
+            </div>
           </div>
 
           {/* Text */}

@@ -43,7 +43,7 @@ const FollowBtn = ({
       onClick={handleFollow}
     >
       {isLoading ? (
-        <div className="w-5 h-5 border-2 border-black dark:border-white border-t-transparent rounded-full animate-spin" />
+        <div className="w-5 h-5 border-2 border-b-blue-400  rounded-full animate-spin" />
       ) : (
         message
       )}

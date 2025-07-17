@@ -20,6 +20,7 @@ export async function getAllPosts() {
             username: true,
             image: true,
             isVerified: true,
+            createdAt: true,
           },
         },
         _count: {
@@ -165,6 +166,7 @@ export async function getPostById(postId: string) {
             username: true,
             image: true,
             isVerified: true,
+            createdAt: true,
           },
         },
         _count: {
@@ -180,6 +182,7 @@ export async function getPostById(postId: string) {
                 username: true,
                 image: true,
                 isVerified: true,
+                createdAt: true,
               },
             },
           },

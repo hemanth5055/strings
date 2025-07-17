@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { PiTrashSimple } from "react-icons/pi";
 import { MdVerified, MdOutlineModeComment } from "react-icons/md";
-import { LuSendHorizontal } from "react-icons/lu";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import Image from "next/image";
 import {
@@ -14,6 +13,7 @@ import {
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import PostTime from "./PostTime";
 
 const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
   if (!post) return null;
@@ -24,14 +24,15 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
   const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
+  const [showCommentSection, setShowCommentSection] = useState(true);
   const [comment, setComment] = useState("");
 
   const handleLike = async () => {
     if (isLiking) return;
     try {
       setIsLiking(true);
-      setHasLiked((prev) => !prev);
-      setOptimisticLikes((prev) => prev + (hasLiked ? -1 : 1));
+      setHasLiked((prev: boolean) => !prev);
+      setOptimisticLikes((prev: number) => prev + (hasLiked ? -1 : 1));
       await toggleLike(post.id);
     } catch (error) {
       setOptimisticLikes(post._count.likes);
@@ -111,21 +112,26 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
         </div>
 
         <div className="flex flex-col gap-1 w-full">
-          <div className="flex items-center gap-1">
-            <Link
-              href={
-                dbUserId === post.author.id
-                  ? "/profile"
-                  : `/user/${post.author.username}`
-              }
-            >
-              <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
-                {post.author.name}
-              </h2>
-            </Link>
-            {post.author.isVerified && (
-              <MdVerified className="text-[#3E95EF]" size={16} />
-            )}
+          <div className="flex items-center justify-between">
+            <div className="flex gap-1 items-center">
+              <Link
+                href={
+                  dbUserId === post.author.id
+                    ? "/profile"
+                    : `/user/${post.author.username}`
+                }
+              >
+                <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
+                  {post.author.name}
+                </h2>
+              </Link>
+              {post.author.isVerified && (
+                <MdVerified className="text-[#3E95EF]" size={16} />
+              )}
+            </div>
+            <div className="flex items-center">
+              <PostTime createdAt={post.createdAt} />
+            </div>
           </div>
 
           <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
@@ -154,14 +160,16 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
                 <FaRegHeart size={20} className="dark:text-[#e8e8e8]" />
               )}
             </div>
-            <MdOutlineModeComment
-              size={20}
-              className="dark:text-[#e8e8e8] cursor-pointer"
-            />
-            <LuSendHorizontal
-              size={20}
-              className="dark:text-[#e8e8e8] cursor-pointer"
-            />
+            <div onClick={() => setShowCommentSection((prev) => !prev)}>
+              <MdOutlineModeComment
+                size={20}
+                className={`${
+                  showCommentSection
+                    ? "text-blue-400 cursor-pointer"
+                    : "dark:text-[#e8e8e8] cursor-pointer"
+                }`}
+              />
+            </div>
           </div>
 
           <div className="w-full flex gap-4 items-center">
@@ -185,75 +193,90 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
       </div>
 
       {/* Comments */}
-      <div className="w-full flex">
-        <div className="w-[40px] flex justify-center">
-          <div className="w-[2px] dark:bg-gray-600 bg-gray-300 h-full" />
-        </div>
+      {showCommentSection ? (
+        <div className="w-full flex">
+          <div className="w-[40px] flex justify-center">
+            <div className="w-[2px] dark:bg-gray-600 bg-gray-300 h-full" />
+          </div>
 
-        <div className="w-full flex flex-col gap-3 pl-4 my-3">
-          {/* Input */}
-          <div className="w-full flex items-center gap-4">
-            <textarea
-              name="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Write your comment ..."
-              className="md:w-[60%] w-[75%] md:h-[70px] h-[60px] p-2 dark:bg-[#202020] bg-[#ececec] resize-none outline-none font-medium md:text-[16px] text-[14px] rounded-[10px] px-4"
-            />
-            <div onClick={handleAddComment} className="cursor-pointer">
-              <h1 className="text-[#3E95EF] font-semibold">Post</h1>
+          <div className="w-full flex flex-col gap-3 pl-4 my-3">
+            {/* Input */}
+            <div className="w-full flex items-center gap-4">
+              <textarea
+                name="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Write your comment ..."
+                className="md:w-[60%] w-[75%] md:h-[70px] h-[60px] p-2 dark:bg-[#202020] bg-[#ececec] resize-none outline-none font-medium md:text-[16px] text-[14px] rounded-[10px] px-4"
+              />
+              <div onClick={handleAddComment} className="cursor-pointer">
+                <h1
+                  className={`text-[#3E95EF] font-semibold ${
+                    isCommenting ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isCommenting ? "Posting" : "Post"}
+                </h1>
+              </div>
+            </div>
+
+            {/* Existing Comments */}
+            <div className="w-full flex flex-col gap-6">
+              {post.comments.map((cmt: any) => (
+                <div className="w-full flex md:gap-4 gap-2" key={cmt.id}>
+                  <div className="w-[40px] relative h-[40px] shrink-0 rounded-full">
+                    <Image
+                      fill
+                      src={cmt.user.image}
+                      alt="profile"
+                      className="object-cover rounded-full"
+                    />
+                  </div>
+
+                  <div className="w-full flex flex-col gap-[2px]">
+                    <div className="w-full flex justify-between items-center">
+                      <div className="flex gap-1 items-center">
+                        <Link
+                          href={
+                            dbUserId === cmt.user.id
+                              ? "/profile"
+                              : `/user/${cmt.user.username}`
+                          }
+                        >
+                          <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
+                            {cmt.user.name}
+                          </h2>
+                        </Link>
+                        {cmt.user.isVerified && (
+                          <MdVerified className="text-[#3E95EF]" size={16} />
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <PostTime createdAt={cmt.createdAt} />
+                      </div>
+                    </div>
+
+                    <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
+                      {cmt.content}
+                    </p>
+                  </div>
+
+                  {dbUserId === cmt.user.id && (
+                    <div
+                      className="cursor-pointer text-red-400 pt-1"
+                      onClick={() => handleDelComment(cmt.id)}
+                    >
+                      <PiTrashSimple size={15} />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-
-          {/* Existing Comments */}
-          <div className="w-full flex flex-col gap-6">
-            {post.comments.map((cmt: any) => (
-              <div className="w-full flex md:gap-4 gap-2" key={cmt.id}>
-                <div className="w-[40px] relative h-[40px] shrink-0 rounded-full">
-                  <Image
-                    fill
-                    src={cmt.user.image}
-                    alt="profile"
-                    className="object-cover rounded-full"
-                  />
-                </div>
-
-                <div className="w-full flex flex-col gap-[2px]">
-                  <div className="w-full flex gap-1 items-center">
-                    <Link
-                      href={
-                        dbUserId === cmt.user.id
-                          ? "/profile"
-                          : `/user/${cmt.user.username}`
-                      }
-                    >
-                      <h2 className="font-medium dark:text-[#F3F5F7] text-sm sm:text-base">
-                        {cmt.user.name}
-                      </h2>
-                    </Link>
-                    {cmt.user.isVerified && (
-                      <MdVerified className="text-[#3E95EF]" size={16} />
-                    )}
-                  </div>
-
-                  <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
-                    {cmt.content}
-                  </p>
-                </div>
-
-                {dbUserId === cmt.user.id && (
-                  <div
-                    className="cursor-pointer text-red-400 pt-1"
-                    onClick={() => handleDelComment(cmt.id)}
-                  >
-                    <PiTrashSimple size={15} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

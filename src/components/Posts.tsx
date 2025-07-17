@@ -6,8 +6,8 @@ import { getDbUserId } from "@/actions/user.action";
 const Posts = async () => {
   const { success: postSuccess, data: posts } = await getAllPosts();
   const { success: userSuccess, userId: dbUserId } = await getDbUserId();
-
   if (!postSuccess || !userSuccess || !posts || !dbUserId) return null;
+  console.log(posts);
 
   return (
     <div className="flex flex-col gap-2">
