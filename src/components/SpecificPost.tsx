@@ -134,7 +134,7 @@ const SpecificPost = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
             </div>
           </div>
 
-          <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base">
+          <p className="dark:text-[#F3F5F7] font-medium text-sm sm:text-base break-all whitespace-pre-wrap ">
             {post.content}
           </p>
 
