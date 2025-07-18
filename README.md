@@ -23,15 +23,13 @@
 
 ---
 
-## 🛠 Technology Stack
+### 🛠 Technology Stack
 
-* **Frontend:** [Next.js 15](https://nextjs.org/) (App Router), [Tailwind CSS](https://tailwindcss.com)
-* **Backend:** [Node.js](https://nodejs.org/), [Prisma ORM](https://www.prisma.io)
-* **Database:** [PostgreSQL](https://www.postgresql.org)
-* **Authentication:** [Clerk](https://clerk.com)
-* **Webhooks:** [Svix](https://www.svix.com), Clerk Webhooks
-* **Deployment:** [Vercel](https://vercel.com)
+* **Frontend:** Next.js 15 (App Router) with Tailwind CSS for responsive, modern UI design
+* **Database:** PostgreSQL for robust, scalable relational data management
+* **Authentication:** Clerk for secure user authentication and session management
+* **Webhooks:** Svix and Clerk Webhooks for real-time event handling and system integration
+* **Deployment:** Vercel for fast, reliable, and serverless deployment
 
----
 
 

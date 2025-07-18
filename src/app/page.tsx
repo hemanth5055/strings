@@ -14,7 +14,12 @@ const Home = async () => {
   }
   const { success, user } = await getUserByClerkId(doesUserExists.id);
   if (!success || !user)
-    return <h2 className="font-bold">Server Error please try again later.</h2>;
+    return (
+      <h2 className="font-semibold text-red-600">
+        ⚠️ A server error occurred. Please refresh the page or try again
+        shortly.
+      </h2>
+    );
   return (
     <div className="flex flex-col gap-3 w-full h-[98vh] scrollbar-hide overflow-y-auto mx-auto">
       {/* Main content */}

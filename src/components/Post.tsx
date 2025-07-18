@@ -10,12 +10,13 @@ import Image from "next/image";
 import { deletePost, toggleLike } from "@/actions/post.action";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import PostTime from "./PostTime";
 const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
   const [hasLiked, setHasLiked] = useState(
     post.likes.some((like: { userId: string }) => like.userId === dbUserId)
   );
+  const router = useRouter();
   const [isLiking, setIsLiking] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [optimisticLikes, setOptmisticLikes] = useState(post._count.likes);
@@ -129,7 +130,7 @@ const Post = ({ post, dbUserId }: { post: any; dbUserId: string }) => {
               )}
             </div>
 
-            <div onClick={() => redirect(`/post/${post.id}`)}>
+            <div onClick={() => router.push(`/post/${post.id}`)}>
               <IoArrowForwardOutline
                 size={20}
                 className="dark:text-[#F3F5F7] cursor-pointer rotate-[-45deg]"
